@@ -1,23 +1,28 @@
 'use client';
 import {useState, useEffect} from 'react'
 import PromptCard from './PromptCard'
-const PromptCardList=({data, handleTagClick})=>{
-    return(
-      <div className='mt-16 prompt_layout'>
-          {data.map((post)=>{
-            <PromptCard
-              key={post._id}
-              post={post}
-              handleTagClick={handleTagClick}
-            />
-          })}
-      </div>
-    )
-}
+const PromptCardList = ({ data, handleTagClick }) => {
+  if (!Array.isArray(data) || data.length === 0) {
+    // If data is not an array or is an empty array, return null or some fallback content.
+    return null;
+  }
+  return (
+    <div className='mt-16 prompt_layout'>
+      {data.map((post) => (
+        <PromptCard
+          key={post._id}
+          post={post}
+          handleTagClick={handleTagClick}
+        />
+      ))}
+    </div>
+  );
+};
+
 const Feed = () => { 
   const [searchtText, setSearchText] = useState('');
 
-  const [posts,setPosts] = useState('');
+  const [posts,setPosts] = useState([]);
   const handleSearchChange=(e)=>{
 
   }
@@ -31,6 +36,7 @@ const Feed = () => {
     }
     fetchPosts();
   },[]);
+  console.log(posts);
   return (
     <section className='feed'>
       <form className='relative w-full flex-centre'>
@@ -46,8 +52,9 @@ const Feed = () => {
       </form>
 
       <PromptCardList
-      data={post}
+      data={posts}
       handleTagClick={()=>{}}
+      
       />
     </section>
 
